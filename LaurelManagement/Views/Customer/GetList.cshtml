@@ -1,0 +1,35 @@
+﻿
+@{
+    Layout = null;
+}
+@model LaurelManagement.Models.CustomersModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetList</title>
+</head>
+<body>
+    <div>
+        @foreach (var item in Model.customerList)
+        {
+            <table border="1">
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td>@item.Country</td>
+                </tr>
+            </table>
+
+        }
+
+    </div>
+
+    <form method="get" action="Customer/AddCustomer">
+        <button type="submit" >Add Customer Page</button>
+    </form>
+</body>
+</html>

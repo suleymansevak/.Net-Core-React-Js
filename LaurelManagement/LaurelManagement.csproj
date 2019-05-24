@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LaurelManagement.Business\LaurelManagement.Business.csproj" />
+    <ProjectReference Include="..\LaurelManagement.Data\LaurelManagement.Data.csproj" />
+    <ProjectReference Include="..\LaurelManagement.Mvc\LaurelManagement.Mvc.csproj" />
+  </ItemGroup>
+
+</Project>

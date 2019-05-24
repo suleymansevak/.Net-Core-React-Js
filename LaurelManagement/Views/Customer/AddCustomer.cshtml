@@ -1,0 +1,27 @@
+﻿
+@{
+    Layout = null;
+}
+
+@model  LaurelManagement.Models.CustomersModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddCustomer</title>
+</head>
+<body>
+    <div>
+        <form method="post">
+
+
+            @Html.TextBoxFor(a => a.FirstName, new { @class = "form-control" })
+            @Html.TextBoxFor(a => a.LastName, new { @class = "form-control" })
+            @Html.TextBoxFor(a => a.Country, new { @class = "form-control" })
+            <button type="submit">Add Customer </button>
+        </form>
+    </div>
+    
+</body>
+</html>

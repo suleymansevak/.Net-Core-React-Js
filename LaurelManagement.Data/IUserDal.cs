@@ -1,0 +1,15 @@
+﻿using LaurelManagement.Entity;
+using LaurelManagement.Mvc.DataAccess;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Text;
+
+namespace LaurelManagement.Data
+{
+    public interface IUserDal : IEntityRepository<User>
+    {
+        bool Get(User entity);
+        User AuthenticateUser(User entity);
+    }
+}
