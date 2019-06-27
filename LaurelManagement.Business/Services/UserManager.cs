@@ -1,4 +1,5 @@
 ﻿using LaurelManagement.Business.Abstract;
+using LaurelManagement.Business.Services;
 using LaurelManagement.Config;
 using LaurelManagement.Data;
 using LaurelManagement.Entity;
@@ -15,32 +16,23 @@ namespace LaurelManagement.Business.Services
     public class UserManager : IUserService
     {
         private IUserDal _userDal;
+        private ITokenService _tokenservice;
         private readonly JwtConfig _jwtConfig;
-        public UserManager(IUserDal userDal, IOptions<JwtConfig> jwtConfig)
+        public UserManager(IUserDal userDal, IOptions<JwtConfig> jwtConfig,ITokenService tokenservice)
         {
             _userDal = userDal;
             _jwtConfig = jwtConfig.Value;
+            _tokenservice = tokenservice;
         }
-
-
-
+        
+        
         public bool Add(User entity)
         {
-            entity.Token = GenerateToken(entity);
+            entity.Token = _tokenservice.GenerateToken(entity);
             var result = _userDal.Add(entity);
             return result;
         }
 
-        public User Authenticate(User entity)
-        {
-            var user = _userDal.AuthenticateUser(entity);
-            if (user == null)
-            {
-                return null;
-            }
-
-            return user;
-        }
 
         public void Delete(User entity)
         {
@@ -65,6 +57,17 @@ namespace LaurelManagement.Business.Services
             throw new NotImplementedException();
         }
 
+        public User GetUserByToken(string token)
+        {
+            if (token != null)
+            {
+                var result = _userDal.AuthenticateUser(token);
+                return result;
+            }
+            return null;
+
+        }
+
         public User GetUserById(int id)
         {
             throw new NotImplementedException();
@@ -74,26 +77,11 @@ namespace LaurelManagement.Business.Services
         {
             throw new NotImplementedException();
         }
-
-        private string GenerateToken(User user)
+        
+        public User Login(User entity)
         {
-            var Claims = new Claim[]
-            {
-                new Claim("id",user.Id.ToString()),
-                new Claim("email",user.Email),
-                new Claim("phone",user.Phone)
-            };
-            SecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Secret));
-            var token = new JwtSecurityToken(
-                issuer: _jwtConfig.Issuer,
-                audience: _jwtConfig.Issuer,
-                claims: Claims,
-                expires: DateTime.Now.AddMinutes(_jwtConfig.Expires),
-                signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
-
-                );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            entity.Token = _tokenservice.GenerateToken(entity);
+            return entity;
         }
     }
 }

@@ -18,7 +18,6 @@ namespace LaurelManagement.Business.Services
 
         public bool Add(CustomerTemplate template)
         {
-
             try
             {
                 if (template != null)

@@ -10,6 +10,7 @@ namespace LaurelManagement.Data
     public interface IUserDal : IEntityRepository<User>
     {
         bool Get(User entity);
-        User AuthenticateUser(User entity);
+        User AuthenticateUser(string token);
+        User Login(User entity);
     }
 }

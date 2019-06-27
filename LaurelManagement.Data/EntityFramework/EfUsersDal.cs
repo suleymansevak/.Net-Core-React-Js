@@ -14,20 +14,28 @@ namespace LaurelManagement.Data.EntityFramework
         public bool Get(User entity)
         {
             var result = Get(x => x.UserName == entity.UserName && x.Password == entity.Password);
+            entity.Token = result.Token;
             // Any() geriye data dönerse true yada false dönmesini 
             return result != null ? true : false;
         }
 
-        public User AuthenticateUser(User entity)
+        public User AuthenticateUser(string token)
         {
-            var result = Get(x => x.UserName == entity.UserName && x.Password == entity.Password);
+            var result = Get(x => x.Token == token);
 
-            if(result==null)
+            if (result != null && result.ExpireDate > DateTime.Now)
             {
-                return null;
+
+                return result;
             }
 
-            return result;
+            return null ;
+
+        }
+
+        public User Login(User entity)
+        {
+            return entity;
         }
     }
 }

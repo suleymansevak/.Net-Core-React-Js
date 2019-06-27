@@ -13,6 +13,7 @@ namespace LaurelManagement.Business.Abstract
         bool Get(User entity);
         List<User> GetList();
         User GetUserById(int id);
-        User Authenticate(User entity);
+        User GetUserByToken(string token);
+        User Login(User entity);
     }
 }

@@ -34,28 +34,21 @@ namespace LaurelManagement.Controllers
             _userService = userService;
         }
 
-       
-        [AllowAnonymous]
-        [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody] UserModel userParam)
+        [HttpPost]
+        [Route("Login")]
+        public IActionResult Login (User model)
         {
-
-            var user = _userService.Authenticate(new User
+            if (model==null)
             {
-                Id =userParam.Id,
-                UserName=userParam.UserName,
-                Password=userParam.Password
-                
-            });
-
-            if (user == null)
-            {
-                return Unauthorized();
+                return BadRequest();
             }
-            //user.Token = GenerateToken(user);
 
-            return Ok(user);
-
+            var result = _userService.Login(model);
+            if (result==null)
+            {
+              return  NotFound();
+            }
+            return Ok(result);
         }
 
         [HttpPost]
@@ -71,6 +64,7 @@ namespace LaurelManagement.Controllers
             return NotFound();
         }
 
+        [HttpGet]
         [Route("GetList")]
         public IActionResult GetUserList()
         {
@@ -98,28 +92,6 @@ namespace LaurelManagement.Controllers
                 return Ok(result);
             }
             return NotFound();
-        }
-
-
-        private string GenerateToken(User user)
-        {
-            var Claims = new Claim[]
-            {
-                new Claim("id",user.Id.ToString()),
-                new Claim("email",user.Email),
-                new Claim("phone",user.Phone)
-            };
-            SecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Secret));
-            var token = new JwtSecurityToken(
-                issuer: _jwt.Issuer,
-                audience: _jwt.Issuer,
-                claims: Claims,
-                expires: DateTime.Now.AddMinutes(_jwt.Expires),
-                signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
-
-                );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
     }

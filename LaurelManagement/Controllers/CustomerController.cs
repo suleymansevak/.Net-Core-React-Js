@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LaurelManagement.Business.Abstract;
 using LaurelManagement.Entity;
+using LaurelManagement.Filters;
 using LaurelManagement.Models;
 using LaurelManagement.Mvc;
 using LaurelManagement.Mvc.Helper;
@@ -16,6 +17,7 @@ namespace LaurelManagement.Controllers
     [Produces("application/json")]
     [Route("api/Customer")]
     [EnableCors("MyPolicy")]
+    [TypeFilter(typeof(TokenAttribute))]
     public class CustomerController : Controller
     {
             private ICustomerService _customerService; 
