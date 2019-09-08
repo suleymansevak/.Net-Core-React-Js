@@ -15,16 +15,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace LaurelManagement.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Customer")]
     [EnableCors("MyPolicy")]
+    [Route("api/Customer")]
     [TypeFilter(typeof(TokenAttribute))]
     public class CustomerController : Controller
     {
-            private ICustomerService _customerService; 
-            public CustomerController(ICustomerService customerService)
-            {
-                _customerService = customerService;
-            }
+        private readonly ICustomerService _customerService;
+        public CustomerController(ICustomerService customerService)
+        {
+            _customerService = customerService;
+        }
 
         [HttpGet]
         [Route("GetList")]
@@ -33,9 +33,8 @@ namespace LaurelManagement.Controllers
             var customerList = _customerService.GetList();
             CustomersModel model = new CustomersModel();
             model.customerList = customerList;
-         // var  jsonmodel = model.FirstName.ToJson();
 
-            return Ok (model);
+            return Ok(model);
         }
 
         [HttpGet]
@@ -48,18 +47,19 @@ namespace LaurelManagement.Controllers
         [Route("add")]
         public IActionResult AddCustomer(CustomersModel model)
         {
-            if (model==null)
+            if (model == null)
             {
                 return NotFound();
             }
-        _customerService.Add(new CustomerTemplate {
-            Country = model.Country,
-            FirstName = model.FirstName,
-            LastName = model.LastName
-        });
-          
-            return Ok();
-    }
+            _customerService.Add(new Customer
+            {
+                Country = model.Country,
+                FirstName = model.FirstName,
+                LastName = model.LastName
+            });
 
-}
+            return Ok();
+        }
+
+    }
 }

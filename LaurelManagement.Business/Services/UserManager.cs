@@ -18,14 +18,14 @@ namespace LaurelManagement.Business.Services
         private IUserDal _userDal;
         private ITokenService _tokenservice;
         private readonly JwtConfig _jwtConfig;
-        public UserManager(IUserDal userDal, IOptions<JwtConfig> jwtConfig,ITokenService tokenservice)
+        public UserManager(IUserDal userDal, IOptions<JwtConfig> jwtConfig, ITokenService tokenservice)
         {
             _userDal = userDal;
             _jwtConfig = jwtConfig.Value;
             _tokenservice = tokenservice;
         }
-        
-        
+
+
         public bool Add(User entity)
         {
             entity.Token = _tokenservice.GenerateToken(entity);
@@ -40,12 +40,18 @@ namespace LaurelManagement.Business.Services
         }
 
 
-        public bool Get(User entity)
+        public User Get(User entity)
         {
-            var result = false;
+            var result = new User();
             if (entity.UserName != null || entity.Password != null)
             {
                 result = _userDal.Get(entity);
+                if (result != null && result.ExpireDate < DateTime.Now)
+                {
+                    result.Token = _tokenservice.GenerateToken(result);
+                    result.ExpireDate = DateTime.Now.AddHours(1);
+                    _userDal.Update(result);
+                }
             }
 
             return result;
@@ -77,7 +83,7 @@ namespace LaurelManagement.Business.Services
         {
             throw new NotImplementedException();
         }
-        
+
         public User Login(User entity)
         {
             entity.Token = _tokenservice.GenerateToken(entity);

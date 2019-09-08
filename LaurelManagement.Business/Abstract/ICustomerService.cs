@@ -6,7 +6,7 @@ namespace LaurelManagement.Business.Abstract
 {
     public interface ICustomerService
     {
-        bool Add(CustomerTemplate entity);
+        bool Add(Customer entity);
         void Delete(Customer entity);
         void Update(Customer entity);
         List<Customer> GetList();

@@ -16,7 +16,7 @@ namespace LaurelManagement.Business.Services
             _customerDal = customerDal;
         }
 
-        public bool Add(CustomerTemplate template)
+        public bool Add(Customer template)
         {
             try
             {

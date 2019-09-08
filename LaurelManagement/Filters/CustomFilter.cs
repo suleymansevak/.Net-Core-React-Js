@@ -21,8 +21,9 @@ namespace LaurelManagement.Filters
         }
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-           var model = context.HttpContext.Request.Headers["Authorization"] ;
-            if (model.ToString() != null || model.ToString() != string.Empty)
+            var model =  context.HttpContext.Request.Headers["Authorization"].ToString();
+            
+            if (model != null && model !="" && model!= "undefined")
             {
                 var result = _userService.GetUserByToken(model);
 
@@ -32,9 +33,7 @@ namespace LaurelManagement.Filters
                 }
                 else
                 {
-                   // context.Result = new UnauthorizedResult();
-
-                   context.Result= new StatusCodeResult(401);
+                    context.Result = new StatusCodeResult(401);
                 }
             }
             else

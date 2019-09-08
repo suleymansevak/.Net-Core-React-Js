@@ -34,10 +34,18 @@ namespace LaurelManagement
             //services.AddDbContext<LaurelDbContext>(a => a.UseSqlServer(@"Server=.;Database=ReactDatabase; Trusted_Connection=true" ));
             services.AddMvc();
             services.AddScoped<ICustomerService, CustomerManager>();
-            services.AddScoped<IUserService, UserManager>();
             services.AddScoped<ICustomerDal, EfCustomersDal>();
+            services.AddScoped<IUserService, UserManager>();
             services.AddScoped<IUserDal, EfUsersDal>();
+            services.AddScoped<IProductService, ProductManager>();
+            services.AddScoped<IProductDal, EfProductDal>();
+            services.AddScoped<ITokenService, TokenManager>();
             services.AddScoped<TokenAttribute>();
+
+
+
+
+            //For React "Cors" Error
             services.AddCors(options =>
             {
                 options.AddPolicy("MyPolicy",
@@ -69,6 +77,8 @@ namespace LaurelManagement
                 };
             });
 
+
+           
          
         }
 

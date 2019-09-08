@@ -10,7 +10,7 @@ namespace LaurelManagement.Business.Abstract
         bool Add(User entity);
         void Update(User entity);
         void Delete(User entity);
-        bool Get(User entity);
+        User Get(User entity);
         List<User> GetList();
         User GetUserById(int id);
         User GetUserByToken(string token);

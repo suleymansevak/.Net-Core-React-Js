@@ -11,26 +11,24 @@ namespace LaurelManagement.Data.EntityFramework
 {
     public class EfUsersDal : EfEntityRepositoryBase<User, LaurelDbContext>, IUserDal
     {
-        public bool Get(User entity)
+
+
+        public User Get(User entity)
         {
             var result = Get(x => x.UserName == entity.UserName && x.Password == entity.Password);
-            entity.Token = result.Token;
-            // Any() geriye data dönerse true yada false dönmesini 
-            return result != null ? true : false;
+            return result;
+
         }
 
         public User AuthenticateUser(string token)
         {
             var result = Get(x => x.Token == token);
-
             if (result != null && result.ExpireDate > DateTime.Now)
             {
-
                 return result;
             }
 
-            return null ;
-
+            return null;
         }
 
         public User Login(User entity)

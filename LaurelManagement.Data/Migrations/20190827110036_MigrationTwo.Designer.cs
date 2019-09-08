@@ -11,9 +11,10 @@ using System;
 namespace LaurelManagement.Data.Migrations
 {
     [DbContext(typeof(LaurelDbContext))]
-    partial class LaurelDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190827110036_MigrationTwo")]
+    partial class MigrationTwo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,4 +1,5 @@
 ﻿using LaurelManagement.Business.Abstract;
+using LaurelManagement.Data;
 using LaurelManagement.Entity;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,18 @@ namespace LaurelManagement.Business.Services
 {
     public class ProductManager : IProductService
     {
+        private IProductDal _productDal;
+
+        public ProductManager(IProductDal productDal)
+        {
+            _productDal = productDal;
+        }
+
         public bool Add(Product entity)
         {
-            throw new NotImplementedException();
+            var result = _productDal.Add(entity);
+
+            return result;
         }
 
         public void Delete(Product entity)
@@ -20,7 +30,21 @@ namespace LaurelManagement.Business.Services
 
         public List<Product> GetList()
         {
-            throw new NotImplementedException();
+            var serviceResult = new List<Product>();
+            try
+            {
+                var productList = _productDal.GetList();
+                if (productList != null)
+                {
+                    serviceResult = productList;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return serviceResult;
+
         }
 
         public Product GetProductById(int id)

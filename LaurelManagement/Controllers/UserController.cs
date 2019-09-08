@@ -23,7 +23,6 @@ namespace LaurelManagement.Controllers
     [Produces("application/json")]
     [Route("api/User")]
     [EnableCors("MyPolicy")]
-    [TypeFilter(typeof(TokenAttribute))]
     public class UserController : Controller
     {
         private IUserService _userService;
@@ -51,6 +50,7 @@ namespace LaurelManagement.Controllers
             return Ok(result);
         }
 
+
         [HttpPost]
         [Route("UserCheck")]
         public IActionResult CheckUser([FromBody] User model)
@@ -64,6 +64,7 @@ namespace LaurelManagement.Controllers
             return NotFound();
         }
 
+        [TypeFilter(typeof(TokenAttribute))]
         [HttpGet]
         [Route("GetList")]
         public IActionResult GetUserList()
@@ -73,10 +74,10 @@ namespace LaurelManagement.Controllers
 
         [HttpPost]
         [Route("register")]
+        [TypeFilter(typeof(TokenAttribute))]
         public IActionResult Register([FromBody] UserModel model)
         {
             if (model != null)
-
             {
                 var result = _userService.Add(new User
                 {
